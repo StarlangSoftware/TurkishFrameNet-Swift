@@ -20,6 +20,10 @@ public class LexicalUnit{
         self.frameElements.append(element)
     }
     
+    public func getSynSetId()-> String{
+        return synSetId;
+    }
+    
     public func size()-> Int{
         return self.frameElements.count
     }

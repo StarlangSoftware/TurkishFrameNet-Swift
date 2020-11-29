@@ -25,7 +25,8 @@ public class FrameNet: NSObject, XMLParserDelegate{
             for line in lines{
                 let thisSourceFile = URL(fileURLWithPath: #file)
                 let thisDirectory = thisSourceFile.deletingLastPathComponent()
-                let url = thisDirectory.appendingPathComponent("Frames/" + line + ".xml")
+                let fileName = "Frames/" + line.trimmingCharacters(in: .whitespacesAndNewlines)
+                let url = thisDirectory.appendingPathComponent(fileName)
                 let parser = XMLParser(contentsOf: url)!
                 self.frame = Frame(name: String(line))
                 self.lexicalUnit = nil
@@ -60,6 +61,25 @@ public class FrameNet: NSObject, XMLParserDelegate{
         if string != "\n"{
             value = value + string
         }
+    }
+    
+    public func lexicalUnitExists(synSetId: String)->Bool{
+        for frame in self.frames{
+            if frame.lexicalUnitExists(synSetId: synSetId){
+                return true
+            }
+        }
+        return false
+    }
+    
+    public func getFrames(synSetId: String)->[Frame]{
+        var result: [Frame] = []
+        for frame in self.frames{
+            if frame.lexicalUnitExists(synSetId: synSetId){
+                result.append(frame)
+            }
+        }
+        return result
     }
     
     public func size()->Int{
