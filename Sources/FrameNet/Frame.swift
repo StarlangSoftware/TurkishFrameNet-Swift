@@ -10,50 +10,41 @@ import Foundation
 public class Frame{
     
     private var name: String = ""
-    private var lexicalUnits: [LexicalUnit] = []
-    
+    private var lexicalUnits: [String] = []
+    private var frameElements: [String] = []
+
     public init(name: String){
         self.name = name
     }
     
-    public func lexicalUnitExists(synSetId: String)->Bool{
-        for lexicalUnit in self.lexicalUnits{
-            if lexicalUnit.getSynSetId() == synSetId{
-                return true
-            }
-        }
-        return false
-    }
-    
-    public func getLexicalUnitWithId(synSetId: String)->LexicalUnit!{
-        for lexicalUnit in self.lexicalUnits{
-            if lexicalUnit.getSynSetId() == synSetId{
-                return lexicalUnit
-            }
-        }
-        return nil
-    }
-
-    public func removeLexicalUnit(toBeRemoved: LexicalUnit){
-        for i in 0..<lexicalUnits.count{
-            if lexicalUnits[i].getSynSetId() == toBeRemoved.getSynSetId(){
-                self.lexicalUnits.remove(at: i)
-            }
-        }
-    }
-
-    public func addLexicalUnit(lexicalUnit: LexicalUnit){
+    public func addLexicalUnit(lexicalUnit: String){
         self.lexicalUnits.append(lexicalUnit)
     }
+
+    public func addFrameElement(frameElement: String){
+        self.frameElements.append(frameElement)
+    }
+
+    public func lexicalUnitExists(synSetId: String)->Bool{
+        return self.lexicalUnits.contains(synSetId)
+    }
     
-    public func getLexicalUnit(index: Int)->LexicalUnit{
+    public func getLexicalUnit(index: Int)->String{
         return self.lexicalUnits[index]
     }
-    
-    public func size()->Int{
+
+    public func getFrameElement(index: Int)->String{
+        return self.frameElements[index]
+    }
+
+    public func lexicalUnitSize()->Int{
         return self.lexicalUnits.count
     }
-    
+
+    public func frameElementSize()->Int{
+        return self.frameElements.count
+    }
+
     public func getName()->String{
         return self.name
     }

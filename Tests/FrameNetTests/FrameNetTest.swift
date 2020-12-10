@@ -15,7 +15,7 @@ final class FrameNetTest: XCTestCase {
     func testLexicalUnitSize() {
         var count : Int = 0
         for i in 0..<frameNet.size(){
-            count += frameNet.getFrame(index: i).size()
+            count += frameNet.getFrame(index: i).lexicalUnitSize()
         }
         XCTAssertEqual(2561, count);
     }
@@ -23,20 +23,16 @@ final class FrameNetTest: XCTestCase {
     func testFrameElementSize() {
         var count : Int = 0
         for i in 0..<frameNet.size(){
-            for j in 0..<frameNet.getFrame(index: i).size(){
-                count += frameNet.getFrame(index: i).getLexicalUnit(index: j).size();
-            }
+            count += frameNet.getFrame(index: i).frameElementSize();
         }
-        XCTAssertEqual(10476, count);
+        XCTAssertEqual(915, count);
     }
 
     func testDistinctFrameElements() {
         var elements = Set<String>()
         for i in 0..<frameNet.size(){
-            for j in 0..<frameNet.getFrame(index: i).size(){
-                for element in frameNet.getFrame(index: i).getLexicalUnit(index: j).getFrameElements(){
-                    elements.insert(element)
-                }
+            for j in 0..<frameNet.getFrame(index: i).frameElementSize(){
+                elements.insert(frameNet.getFrame(index: i).getFrameElement(index: j))
             }
         }
         XCTAssertEqual(203, elements.count);

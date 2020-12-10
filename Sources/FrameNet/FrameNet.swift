@@ -11,49 +11,42 @@ public class FrameNet: NSObject, XMLParserDelegate{
     
     private var frames: [Frame] = []
     private var frame: Frame? = nil
-    private var lexicalUnit: LexicalUnit? = nil
     private var value: String = ""
     
     override public init(){
         super.init()
         let thisSourceFile = URL(fileURLWithPath: #file)
         let thisDirectory = thisSourceFile.deletingLastPathComponent()
-        let url = thisDirectory.appendingPathComponent("files.txt")
-        do{
-            let fileContent = try String(contentsOf: url, encoding: .utf8)
-            let lines = fileContent.split(whereSeparator: \.isNewline)
-            for line in lines{
-                let thisSourceFile = URL(fileURLWithPath: #file)
-                let thisDirectory = thisSourceFile.deletingLastPathComponent()
-                let fileName = "Frames/" + line.trimmingCharacters(in: .whitespacesAndNewlines)
-                let url = thisDirectory.appendingPathComponent(fileName)
-                let parser = XMLParser(contentsOf: url)!
-                self.frame = Frame(name: String(line))
-                self.lexicalUnit = nil
-                parser.delegate = self
-                parser.parse()
-            }
-        } catch {
-        }
+        let url = thisDirectory.appendingPathComponent("framenet.xml")
+        let parser = XMLParser(contentsOf: url)!
+        parser.delegate = self
+        parser.parse()
     }
     
     public func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
         var id: String
-        if (elementName == "LEXICALUNIT") {
-            id = attributeDict["ID"]!
-            self.lexicalUnit = LexicalUnit(synSetId: id)
+        if (elementName == "FRAME") {
+            id = attributeDict["NAME"]!
+            self.frame = Frame(name: id)
+        } else {
+            if (elementName == "FRAME_ELEMENT" || elementName == "LEXICAL_UNIT") {
+                value = ""
+            }
         }
     }
     
     public func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?){
         if (elementName == "FRAME"){
             self.frames.append(frame!)
-        } else if (elementName == "LEXICALUNIT"){
-            self.frame?.addLexicalUnit(lexicalUnit: self.lexicalUnit!)
-            self.lexicalUnit = nil
-        } else if (elementName == "ELEMENT"){
-            self.lexicalUnit?.addElement(element: value)
             value = ""
+        } else {
+            if (elementName == "FRAME_ELEMENT"){
+                self.frame?.addFrameElement(frameElement: value)
+            } else {
+                if (elementName == "LEXICAL_UNIT"){
+                    self.frame!.addLexicalUnit(lexicalUnit: value)
+                }
+            }
         }
     }
     
