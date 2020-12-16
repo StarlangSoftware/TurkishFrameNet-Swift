@@ -25,7 +25,7 @@ final class FrameNetTest: XCTestCase {
         for i in 0..<frameNet.size(){
             count += frameNet.getFrame(index: i).frameElementSize();
         }
-        XCTAssertEqual(915, count);
+        XCTAssertEqual(1665, count);
     }
 
     func testDistinctFrameElements() {
@@ -35,7 +35,7 @@ final class FrameNetTest: XCTestCase {
                 elements.insert(frameNet.getFrame(index: i).getFrameElement(index: j))
             }
         }
-        XCTAssertEqual(203, elements.count);
+        XCTAssertEqual(289, elements.count);
     }
 
     static var allTests = [
