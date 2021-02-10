@@ -60,6 +60,38 @@ Result: The imported project is listed in the Project Explorer view and files ar
 
 After being done with the downloading and opening project, select **Build** option from **Product** menu. After compilation process, user can run TurkishFrameNet-Swift.
 
+Detailed Description
+============
+
++ [FrameNet](#framenet)
++ [Frame](#frame)
+
+## FrameNet
+
+FrameNet'i okumak ve tüm Frameleri hafızada tutmak için
+
+	a = FrameNet()
+
+Frameleri tek tek gezmek için
+
+	for i in 0..<a.size(){
+		frame = a.getFrame(i)
+	}
+
+Bir fiile ait olan Frameleri bulmak için
+
+	frames = a.getFrames("TUR10-1234560")
+
+## Frame
+
+Bir framein lexical unitlerini getirmek için
+
+	func getLexicalUnit(index: Int)->String
+		
+Bir framein frame elementlerini getirmek için
+
+	func getFrameElement(index: Int)->String
+	
 # Cite
 
 	@inproceedings{marsan20,
