@@ -12,13 +12,12 @@ public class FrameNet: NSObject, XMLParserDelegate{
     private var frames: [Frame] = []
     private var frame: Frame? = nil
     private var value: String = ""
+    private var parser: XMLParser = XMLParser()
     
     override public init(){
+        let url = Bundle.module.url(forResource: "framenet", withExtension: "xml")
+        parser = XMLParser(contentsOf: url!)!
         super.init()
-        let thisSourceFile = URL(fileURLWithPath: #file)
-        let thisDirectory = thisSourceFile.deletingLastPathComponent()
-        let url = thisDirectory.appendingPathComponent("framenet.xml")
-        let parser = XMLParser(contentsOf: url)!
         parser.delegate = self
         parser.parse()
     }
