@@ -56,6 +56,10 @@ public class FrameElement{
         return self.id;
     }
     
+    public func setId(id: String){
+        self.id = id
+    }
+    
     /// description converts an FrameElement to a string. If the frameElementType is "NONE" returns only "NONE", otherwise
     /// it returns argument string which is in the form of frameElementType$id
     /// - Returns: string form of frameElement
