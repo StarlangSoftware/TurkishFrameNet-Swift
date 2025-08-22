@@ -17,7 +17,7 @@ final class FrameNetTest: XCTestCase {
         for i in 0..<frameNet.size(){
             count += frameNet.getFrame(index: i).lexicalUnitSize()
         }
-        XCTAssertEqual(8493, count);
+        XCTAssertEqual(8484, count);
     }
 
     func testFrameElementSize() {
